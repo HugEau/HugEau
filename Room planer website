@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangement Appartement</title>
+    <style>
+        /* Styles CSS pour la mise en page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: #E0EDC6;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .list-item {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            position: relative;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        /* Afficher le texte data-category au survol */
+        .list-item:hover::after {
+            content: attr(data-category);
+            position: absolute;
+            top: 0;
+            right: 100%;
+            background-color: #3498db;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+        .list-item:hover {
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Rangement Appart</h1>
+    </div>
+
+    <div class="container">
+        <!-- Barre de recherche -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher...">
+        </div>
+
+        <!-- Liste des éléments catégorisés -->
+        <div id="itemList">
+            <!-- Exemple de structure de la liste -->
+        </div>
+
+        <!-- Formulaire pour ajouter/supprimer des éléments -->
+        <div class="form-container">
+            <h2>Ajouter</h2>
+            <label for="itemName">Nom de l'Objet :</label>
+            <input type="text" id="itemName" placeholder="Ex: Lampe">
+            <label for="itemCategory">Emplacement :</label>
+            <input type="text" id="itemCategory" placeholder="Ex: Salon">
+            <button onclick="addItem()">Ajouter</button>
+            <h2>Supprimer</h2>
+            <label for="deleteItemName">Nom de l'Objet :</label>
+            <input type="text" id="deleteItemName" placeholder="Nom de l'objet à supprimer">
+            <button onclick="deleteItem()">Supprimer</button>
+        </div>
+    </div>
+
+    <script>
+        // Récupérer la barre de recherche et la liste des éléments
+        const searchInput = document.getElementById('searchInput');
+        const itemList = document.getElementById('itemList');
+
+        // Charger les éléments depuis le stockage local au chargement de la page
+        window.addEventListener('load', () => {
+            loadItemsFromStorage();
+            filterItems(); // Filtre initial
+        });
+
+        // Écouter les changements dans la barre de recherche
+        searchInput.addEventListener('input', filterItems);
+
+        // Fonction pour filtrer les éléments en fonction de la recherche
+        function filterItems() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            // Parcourir tous les éléments de la liste
+            const items = itemList.getElementsByClassName('list-item');
+            for (const item of items) {
+                const itemName = item.textContent.toLowerCase();
+                const itemCategory = item.getAttribute('data-category').toLowerCase();
+
+                // Masquer l'élément s'il ne correspond pas à la recherche
+                if (itemName.includes(searchTerm) || itemCategory.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        }
+
+        // Fonction pour ajouter un élément personnalisé
+        function addItem() {
+            const itemNameInput = document.getElementById('itemName').value;
+            const itemCategoryInput = document.getElementById('itemCategory').value;
+
+            if (itemNameInput && itemCategoryInput) {
+                const newItem = document.createElement('div');
+                newItem.classList.add('list-item');
+                newItem.setAttribute('data-category', itemCategoryInput);
+                newItem.textContent = itemNameInput;
+                itemList.appendChild(newItem);
+
+                // Effacer les champs de saisie
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemCategory').value = '';
+
+                // Enregistrer dans le stockage local
+                saveItemsToStorage();
+            }
+        }
+
+        // Fonction pour supprimer un élément par nom
+        function deleteItem() {
+            const deleteItemNameInput = document.getElementById('deleteItemName').value.toLowerCase();
+
+            // Parcourir tous les éléments de la liste
+            const items = itemList.getElementsByClassName('list-item');
+            for (const item of items) {
+                const itemName = item.textContent.toLowerCase();
+                if (itemName === deleteItemNameInput) {
+                    itemList.removeChild(item);
+
+                    // Enregistrer dans le stockage local
+                    saveItemsToStorage();
+                    break; // Sortir de la boucle une fois l'élément supprimé
+                }
+            }
+
+            // Effacer le champ de saisie
+            document.getElementById('deleteItemName').value = '';
+        }
+
+        // Fonction pour sauvegarder les éléments dans le stockage local
+        function saveItemsToStorage() {
+            const items = [];
+            const listItems = itemList.getElementsByClassName('list-item');
+            for (const listItem of listItems) {
+                const itemName = listItem.textContent;
+                const itemCategory = listItem.getAttribute('data-category');
+                items.push({ name: itemName, category: itemCategory });
+            }
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+
+        // Fonction pour charger les éléments depuis le stockage local
+        function loadItemsFromStorage() {
+            const storedItems = localStorage.getItem('items');
+            if (storedItems) {
+                const items = JSON.parse(storedItems);
+                for (const item of items) {
+                    const newItem = document.createElement('div');
+                    newItem.classList.add('list-item');
+                    newItem.setAttribute('data-category', item.category);
+                    newItem.textContent = item.name;
+                    itemList.appendChild(newItem);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
