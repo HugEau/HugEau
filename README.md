@@ -1,4 +1,4 @@
 - 👋 Hi, I’m Hugo
-- 👀 I’m interested in Web Developping
-- 🌱 I am following a course of Web Integration on OpenClassRoom
+- 👀 I’m interested in Web Developping, biology and mountains
+- 🌱 I am following a Web Integration course on OpenClassRoom
 - 📫 Reach me on Discord : hugeau
