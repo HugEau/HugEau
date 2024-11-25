@@ -1,9 +1,8 @@
 <h1 align="center"> 👋 Hi, I’m Hugo <br><br> 👀 I’m interested in Web Developping, biology and mountains</h1>
-<p>🌱 I am following a Web Integration course on OpenClassRooms</p>
+<p>🌱 Graduated in Web Development (especially Front End) at OpenClassrooms </p>
 <p>👨🏻‍💻 Web Dev freelancer, Auto-Entrepreneur and Digital Nomad</p>
 <p>💼 Curently working on PharmaGDD and <a href="https://www.chesnelwebstudio.fr" font-family="Brittany Signature">CwS</a></p>
-<p>⚛️ React & Next enthusiast ⚛️
-<p>📫 Reach me on Discord : hugeau</p>
+<p>⚛️ ReactJS & NextJS enthusiast ⚛️</p>
 <h2 align="center">💻 Stack 🖍️</h2>
 <br/>
 <div align="center">
