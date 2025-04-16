@@ -1,4 +1,4 @@
-<h1 align="center"> 👋 Hi, I’m Hugo <br><br> 👀 I’m interested in Web Developping, biology and mountains</h1>
+<h1 align="center"> 👋 Hi, I’m Hugo <br><br> 👀 I’m interested in Web Development, biology and mountains</h1>
 <p>🌱 Graduated in Web Development (especially Front End) at OpenClassrooms </p>
 <p>👨🏻‍💻 Web Dev freelancer, Auto-Entrepreneur and Digital Nomad</p>
 <p>💼 Curently working on PharmaGDD and <a href="https://www.chesnelwebstudio.fr" font-family="Brittany Signature">CwS</a></p>
